@@ -1,4 +1,6 @@
 import json
+import os
+
 from livereload import Server, shell
 
 from jinja2 import Environment, FileSystemLoader, select_autoescape
@@ -11,17 +13,21 @@ env = Environment(
 
 template = env.get_template('template.html')
 
+os.makedirs(name='pages', exist_ok=True)
+
 with open('files/books_descriptions.json', 'r', encoding='UTF-8') as file:
     books = file.read()
 books = json.loads(books)
 
-rendered_page = template.render(
-    books=list(chunked(books, 2)),
-)
-
-with open('index.html', 'w', encoding="utf8") as file:
-    file.write(rendered_page)
+start = 0
+for end in range(10, len(books), 10):
+    rendered_page = template.render(
+        books=list(chunked(books[start:end], 2)),
+    )
+    with open(f'pages/index_{start}-{end}.html', 'w', encoding="utf8") as file:
+        file.write(rendered_page)
+    start = end
 
 server = Server()
-server.watch('index.html', shell('index html'))
+server.watch('pages/*.html')
 server.serve(root='.')
