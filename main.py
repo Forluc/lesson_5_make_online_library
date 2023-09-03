@@ -14,7 +14,7 @@ def on_reload():
         autoescape=select_autoescape(['html', 'xml']),
     )
     template = env.get_template('template.html')
-    books_file = os.path.join('files', 'books_descriptions.json')
+    books_file = os.path.join('static', 'books_descriptions.json')
     with open(books_file, 'r', encoding='UTF-8') as file:
         books = json.loads(file.read())
 
