@@ -8,7 +8,7 @@ from more_itertools import chunked
 
 
 def on_reload():
-    os.makedirs('pages', exist_ok=True)
+    os.makedirs('docs', exist_ok=True)
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml']),
@@ -22,7 +22,7 @@ def on_reload():
     num_pages = len(books_by_page)
 
     for current_page, books_on_page in enumerate(books_by_page, 1):
-        filename = f'pages/index{current_page}.html'
+        filename = f'docs/index{current_page}.html'
         books_by_columns = list(chunked(books_on_page, 2))
 
         rendered_page = template.render(
@@ -39,7 +39,7 @@ def main():
 
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='.', default_filename='pages/index1.html')
+    server.serve(root='.', default_filename='docs/index.html')
 
 
 if __name__ == '__main__':
