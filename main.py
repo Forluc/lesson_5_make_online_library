@@ -23,6 +23,7 @@ start = 0
 for end in range(10, len(books), 10):
     rendered_page = template.render(
         books=list(chunked(books[start:end], 2)),
+        pages=[1, 2, 3, 4, 5, 6, 7]
     )
     with open(f'pages/index_{start}-{end}.html', 'w', encoding="utf8") as file:
         file.write(rendered_page)
