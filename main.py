@@ -1,34 +1,46 @@
+import logging
 import json
 import os
-
-from livereload import Server, shell
-
+from pathlib import Path
 from jinja2 import Environment, FileSystemLoader, select_autoescape
+from livereload import Server
 from more_itertools import chunked
 
-env = Environment(
-    loader=FileSystemLoader('.'),
-    autoescape=select_autoescape(['html', 'xml'])
-)
 
-template = env.get_template('template.html')
-
-os.makedirs(name='pages', exist_ok=True)
-
-with open('files/books_descriptions.json', 'r', encoding='UTF-8') as file:
-    books = file.read()
-books = json.loads(books)
-
-start = 0
-for end in range(10, len(books), 10):
-    rendered_page = template.render(
-        books=list(chunked(books[start:end], 2)),
-        pages=[1, 2, 3, 4, 5, 6, 7]
+def on_reload():
+    os.makedirs('pages', exist_ok=True)
+    env = Environment(
+        loader=FileSystemLoader('.'),
+        autoescape=select_autoescape(['html', 'xml']),
     )
-    with open(f'pages/index_{start}-{end}.html', 'w', encoding="utf8") as file:
-        file.write(rendered_page)
-    start = end
+    template = env.get_template('template.html')
+    books_file = os.path.join('files', 'books_descriptions.json')
+    with open(books_file, 'r', encoding='UTF-8') as file:
+        books = json.loads(file.read())
 
-server = Server()
-server.watch('pages/*.html')
-server.serve(root='.')
+    books_by_page = list(chunked(books, 10))
+    num_pages = len(books_by_page)
+
+    for current_page, books_on_page in enumerate(books_by_page, 1):
+        filename = f'pages/index{current_page}.html'
+        books_by_columns = list(chunked(books_on_page, 2))
+
+        rendered_page = template.render(
+            books_by_columns=books_by_columns,
+            current_page=current_page,
+            num_pages=num_pages,
+        )
+        with open(filename, 'w', encoding="UTF-8") as file:
+            file.write(rendered_page)
+
+
+def main():
+    on_reload()
+
+    server = Server()
+    server.watch('template.html', on_reload)
+    server.serve(root='.', default_filename='pages/index1.html')
+
+
+if __name__ == '__main__':
+    main()

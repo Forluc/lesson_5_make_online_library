@@ -1,4 +1,7 @@
+#files
 index.html
+pages
+files/books
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
