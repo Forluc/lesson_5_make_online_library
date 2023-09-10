@@ -1,21 +1,21 @@
-import logging
+import argparse
 import json
 import os
-from pathlib import Path
+
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from livereload import Server
 from more_itertools import chunked
 
 
-def on_reload():
+def on_reload(books_descriptions):
     os.makedirs('pages', exist_ok=True)
     env = Environment(
         loader=FileSystemLoader('.'),
         autoescape=select_autoescape(['html', 'xml']),
     )
     template = env.get_template('template.html')
-    books_file = os.path.join('static', 'books_descriptions.json')
-    with open(books_file, 'r', encoding='UTF-8') as file:
+
+    with open(books_descriptions, 'r', encoding='UTF-8') as file:
         books = json.loads(file.read())
 
     books_by_page = list(chunked(books, 10))
@@ -35,11 +35,18 @@ def on_reload():
 
 
 def main():
-    on_reload()
+    books_descriptions = os.path.join('media', 'books_descriptions.json')
+    parser = argparse.ArgumentParser(description='')
+    parser.add_argument('-b', '--books_descriptions', help='Путь к файлу с описанием книг',
+                        default=books_descriptions)
+    args = parser.parse_args()
+    books_descriptions = args.books_descriptions
+
+    on_reload(books_descriptions)
 
     server = Server()
     server.watch('template.html', on_reload)
-    server.serve(root='.', default_filename='pages/index.html')
+    server.serve(root='.', default_filename='pages/index1.html')
 
 
 if __name__ == '__main__':
