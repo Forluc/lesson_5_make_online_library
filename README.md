@@ -1,6 +1,6 @@
 # Сайт онлайн-библиотеки
 
-Можно ознакомиться по [ссылке](https://forluc.github.io/lesson_5_make_online_library/)
+Можно ознакомиться на [GitHub Pages](https://forluc.github.io/lesson_5_make_online_library/)
 ![gh_pages](https://github.com/Forluc/lesson_5_make_online_library/assets/75582238/e2172a7d-d689-453b-9b76-feacebdc9a8e)
 
 ## Окружение
@@ -11,7 +11,7 @@ Python3 должен быть уже установлен. Затем испол
 зависимостей:
 
 ```bash
-pip install -r requirements.txt
+$ pip install -r requirements.txt
 ``` 
 
 ## Запуск скрипта для запуска сервера по адресу http://127.0.0.1:5500 и создания ссылок(index-файлов в папке docs)
@@ -25,6 +25,22 @@ pip install -r requirements.txt
 ```bash
 $ python main.py
 ```
+## Сценарий использования оффлайн-библиотеки
+
+1) Склонировать проект
+
+```bash
+$ git clone https://github.com/Forluc/lesson_5_make_online_library.git
+```
+
+2) Запустить скрипт
+
+```bash
+$ cd lesson_5_make_online_library
+$ python main.py
+```
+
+3) Перейти по адресу в браузере http://127.0.0.1:5500
 
 ### Цель проекта
 
