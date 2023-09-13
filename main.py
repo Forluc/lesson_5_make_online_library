@@ -18,19 +18,21 @@ def on_reload(books_descriptions):
     with open(books_descriptions, 'r', encoding='UTF-8') as file:
         books = json.load(file)
 
-    books_by_page = list(chunked(books, 10))
+    books_number_on_page = 10
+    books_by_page = list(chunked(books, books_number_on_page))
     num_pages = len(books_by_page)
 
     for current_page, books_on_page in enumerate(books_by_page, 1):
+        columns_number = 2
         filename = f'pages/index{current_page}.html'
-        books_by_columns = list(chunked(books_on_page, 2))
+        books_by_columns = list(chunked(books_on_page, columns_number))
 
         rendered_page = template.render(
             books_by_columns=books_by_columns,
             current_page=current_page,
             num_pages=num_pages,
         )
-        with open(filename, 'w', encoding="UTF-8") as file:
+        with open(filename, 'w', encoding='UTF-8') as file:
             file.write(rendered_page)
 
 
