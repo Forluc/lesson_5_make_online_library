@@ -27,18 +27,18 @@
             </li>
           {% else %}
             <li class="page-item">
-              <a class="page-link" href="/pages/index{{ current_page - 1 }}.html">Предыдущая</a>
+              <a class="page-link" href="/pages/index{{current_page - 1}}.html">Предыдущая</a>
             </li>
           {% endif %}
 
           {% for page_num in range(1, num_pages + 1) %}
             {% if current_page == page_num %}
               <li class="page-item active" aria-current="page">
-                <span class="page-link">{{ current_page }}</span>
+                <span class="page-link">{{current_page}}</span>
               </li>
             {% else %}
               <li class="page-item">
-                <a class="page-link" href="/pages/index{{ page_num }}.html">{{ page_num }}</a>
+                <a class="page-link" href="/pages/index{{page_num}}.html">{{page_num}}</a>
               </li>
             {% endif %}
           {% endfor %}
@@ -48,7 +48,7 @@
             </li>
           {% else %}
             <li class="page-item">
-              <a class="page-link" href="/pages/index{{ current_page + 1 }}.html">Следующая</a>
+              <a class="page-link" href="/pages/index{{current_page + 1}}.html">Следующая</a>
             </li>
           {% endif %}
         </ul>
@@ -61,7 +61,7 @@
               <div class="card mb-3" style="max-width: 540px;">
                 <div class="row no-gutters">
                   <div class="col-md-4">
-                    <img src="../{{book.img_src}}" class="card-img" alt="{{book.title}}">
+                    <img src="../{{book.img_src|urlencode}}" class="card-img" alt="{{book.title}}">
                   </div>
                   <div class="col-md-8">
                     <div class="card-body">
@@ -74,7 +74,7 @@
                       </p>
                       <p class="card-text">
                         <small class="text-muted">
-                          <a href="../{{book.book_path}}" target="_blank" rel="noopener noreferrer">Читать</a>
+                          <a href="../{{book.book_path|urlencode}}" target="_blank" rel="noopener noreferrer">Читать</a>
                         </small>
                       </p>
                     </div>
