@@ -46,10 +46,9 @@ def main():
 
     on_reload(books_descriptions)
 
-    server = Server()
-    server.watch('pages/*.html')
-    server.serve(root='.', default_filename='pages/index1.html')
-
 
 if __name__ == '__main__':
     main()
+    server = Server()
+    server.watch('template.html', main)
+    server.serve(root='.')
